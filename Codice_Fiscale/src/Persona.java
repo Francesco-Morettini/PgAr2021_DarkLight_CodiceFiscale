@@ -1,9 +1,41 @@
 import java.util.Date;
+import java.util.Locale;
 
 public class Persona {
+    private int id;
     private String nome;
     private String cognome;
     private String comune_n;
+    private String data_nascita;
+    private char sesso;
+    private String codice_fiscale;
+    boolean assente=false;
+
+
+    public Persona(String nome, String cognome, String comune_n, String data_nascita, char sesso, int id) {
+        this.nome = nome.toUpperCase();
+        this.cognome = cognome.toUpperCase();
+        this.comune_n = comune_n;
+        this.data_nascita = data_nascita;
+        this.sesso = sesso;
+        this.id= id;
+    }
+
+    public char getSesso() {
+        return sesso;
+    }
+
+    public void setSesso(char sesso) {
+        this.sesso = sesso;
+    }
+
+    public String getCodiceFiscale() {
+        return codice_fiscale;
+    }
+
+    public void setCodiceFiscale(String codice_fiscale) {
+        this.codice_fiscale = codice_fiscale;
+    }
 
     public String getNome() {
         return nome;
@@ -21,28 +53,60 @@ public class Persona {
         this.cognome = cognome;
     }
 
-    public String getComune_n() {
+    public String getComune() {
         return comune_n;
     }
 
-    public void setComune_n(String comune_n) {
+    public void setComune(String comune_n) {
         this.comune_n = comune_n;
     }
 
-    public String getData_nascita() {
+    public String getDataNascita() {
         return data_nascita;
     }
 
-    public void setData_nascita(String data_nascita) {
+    public void setDataNascita(String data_nascita) {
         this.data_nascita = data_nascita;
     }
 
-    private String data_nascita;
+    private int lunghezzaCognome(){
+        return this.cognome.length();
+    }
 
-    public Persona(String nome, String cognome, String comune_n, String data_nascita) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.comune_n = comune_n;
-        this.data_nascita = data_nascita;
+    private String cognomeCodice(){
+
+        String primaparte= new String();
+        if ( lunghezzaCognome()>=3 ){
+
+                int contatore=0;
+                for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
+                {
+             //       if(!(cognome[i].contains("A E I O U")) )
+                          {
+                   //     primaparte = primaparte + cognome[i];
+                        contatore++;
+                    }
+                }
+                if(contatore<3)
+                {
+                    for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
+                    {
+                //        if((cognome[i].contains("A E I O U")) )
+                                {
+                      //      primaparte = primaparte + cognome[i];
+                            contatore++;
+                        }
+                    }
+                }
+
+        }
+        return primaparte;
+    }
+
+    public void generaCodice()
+    {
+
+        //  richimare la parte del cognome
+
     }
 }
