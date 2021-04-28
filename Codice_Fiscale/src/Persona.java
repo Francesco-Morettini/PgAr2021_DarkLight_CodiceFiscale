@@ -2,39 +2,28 @@ import java.util.Date;
 import java.util.Locale;
 
 public class Persona {
+
     private int id;
-    private String nome;
-    private String cognome;
-    private String comune_n;
-    private String data_nascita;
+    private String nome, cognome, comuneNascita, dataNascita, codiceFiscale;
     private char sesso;
-    private String codice_fiscale;
-    boolean assente=false;
+    boolean assente = false;
 
 
-    public Persona(String nome, String cognome, String comune_n, String data_nascita, char sesso, int id) {
+    public Persona(int id, String nome, String cognome, char sesso, String comuneNascita, String dataNascita) {
+        this.id = id;
         this.nome = nome.toUpperCase();
         this.cognome = cognome.toUpperCase();
-        this.comune_n = comune_n;
-        this.data_nascita = data_nascita;
         this.sesso = sesso;
-        this.id= id;
+        this.comuneNascita = comuneNascita;
+        this.dataNascita = dataNascita;
     }
 
-    public char getSesso() {
-        return sesso;
+    public int getId() {
+        return id;
     }
 
-    public void setSesso(char sesso) {
-        this.sesso = sesso;
-    }
-
-    public String getCodiceFiscale() {
-        return codice_fiscale;
-    }
-
-    public void setCodiceFiscale(String codice_fiscale) {
-        this.codice_fiscale = codice_fiscale;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -53,22 +42,39 @@ public class Persona {
         this.cognome = cognome;
     }
 
-    public String getComune() {
-        return comune_n;
+    public String getComuneNascita() {
+        return comuneNascita;
     }
 
-    public void setComune(String comune_n) {
-        this.comune_n = comune_n;
+    public void setComuneNascita(String comuneNascita) {
+        this.comuneNascita = comuneNascita;
     }
 
     public String getDataNascita() {
-        return data_nascita;
+        return dataNascita;
     }
 
-    public void setDataNascita(String data_nascita) {
-        this.data_nascita = data_nascita;
+    public void setDataNascita(String dataNascita) {
+        this.dataNascita = dataNascita;
     }
 
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
+    }
+
+    public char getSesso() {
+        return sesso;
+    }
+
+    public void setSesso(char sesso) {
+        this.sesso = sesso;
+    }
+
+    /*
     private int lunghezzaCognome(){
         return this.cognome.length();
     }
@@ -76,7 +82,7 @@ public class Persona {
     public String cognomeCodice(){
 
         String primaparte= new String();
-       /* if ( lunghezzaCognome()>=3 ){
+        if ( lunghezzaCognome()>=3 ){
 
                 int contatore=0;
                 for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
@@ -107,14 +113,18 @@ public class Persona {
                 if(cognome[i]!='A' && cognome[i]!='E' && cognome[i]!='I' && cognome[i]!='O' && cognome[i]!='U' )
                     primaparte=primaparte+cognome[i];
             }
-        }*/
+        }
         return primaparte;
     }
+    */
 
+    /*
     public void generaCodice()
     {
 
         //  richiamare la parte del cognome
 
     }
+    */
+
 }
