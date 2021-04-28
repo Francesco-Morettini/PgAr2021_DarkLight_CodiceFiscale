@@ -76,7 +76,7 @@ public class Persona {
     private String cognomeCodice(){
 
         String primaparte= new String();
-        if ( lunghezzaCognome()>=3 ){
+       /* if ( lunghezzaCognome()>=3 ){
 
                 int contatore=0;
                 for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
@@ -99,6 +99,13 @@ public class Persona {
                     }
                 }
 
+        }*/
+        if(lunghezzaCognome()<3){
+            primaparte=cognome;
+            for(int i=0;i<3-lunghezzaCognome();i++)
+            {
+                primaparte=primaparte+"X";
+            }
         }
         return primaparte;
     }
