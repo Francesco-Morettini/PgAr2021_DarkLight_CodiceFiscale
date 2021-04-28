@@ -73,7 +73,7 @@ public class Persona {
         return this.cognome.length();
     }
 
-    private String cognomeCodice(){
+    public String cognomeCodice(){
 
         String primaparte= new String();
        /* if ( lunghezzaCognome()>=3 ){
@@ -99,21 +99,22 @@ public class Persona {
                     }
                 }
 
-        }*/
-        if(lunghezzaCognome()<3){
-            primaparte=cognome;
-            for(int i=0;i<3-lunghezzaCognome();i++)
-            {
-                primaparte=primaparte+"X";
-            }
         }
+        else{
+
+            for(int i=0;i<lunghezzaCognome();i++)
+            {
+                if(cognome[i]!='A' && cognome[i]!='E' && cognome[i]!='I' && cognome[i]!='O' && cognome[i]!='U' )
+                    primaparte=primaparte+cognome[i];
+            }
+        }*/
         return primaparte;
     }
 
     public void generaCodice()
     {
 
-        //  richimare la parte del cognome
+        //  richiamare la parte del cognome
 
     }
 }
