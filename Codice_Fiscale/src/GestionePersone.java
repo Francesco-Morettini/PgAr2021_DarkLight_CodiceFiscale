@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class GestionePersone {
 
     private final static String NOME_FILE_PERSONE = "Codice_Fiscale/file/inputPersone.xml";
+    private final static String NOME_FILE_CODICI = "Codice_Fiscale/file/codiciFiscali.xml";
     private final static String ERRORE_READER = "Errore nell'inizializzazione del reader:";
 
     private ArrayList<Persona> persone;
@@ -17,6 +18,9 @@ public class GestionePersone {
     private int numeroPersone, numeroCodici, id;
     private String nome, cognome, comuneNascita, dataNascita;
     private char sesso;
+
+
+
 
     public GestionePersone() {
         this.persone = new ArrayList<Persona>();
@@ -87,13 +91,75 @@ public class GestionePersone {
         this.sesso = sesso;
     }
 
-    public void ImportPersone(){
+
+
+
+    public void importCodici(){
 
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
         boolean errore = false;
-        String nomeElemento;
+
+        try {
+            xmlif = XMLInputFactory.newInstance();
+            xmlr = xmlif.createXMLStreamReader(NOME_FILE_CODICI, new FileInputStream(NOME_FILE_CODICI));
+        } catch (Exception e) {
+            errore = true;
+            System.out.println(ERRORE_READER);
+            System.out.println(e.getMessage());
+        }
+
+        if(!errore){
+            try{
+
+                while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
+
+                    switch (xmlr.getEventType()) { // switch sul tipo di evento
+
+                        case XMLStreamConstants.START_ELEMENT: // inizio di un elemento
+
+                            switch (xmlr.getLocalName()){
+
+                                case "codici":
+                                    setNumeroCodici(Integer.parseInt(xmlr.getAttributeValue(0)));
+                                    break;
+
+                                case "codice":
+                                    xmlr.next();
+                                    codici.add(xmlr.getText());
+                                    break;
+
+                            }
+
+                            break;
+
+                    }
+
+                    xmlr.next();
+
+                }
+
+                for(int i=0; i<=codici.size(); i++){
+                    System.out.println(codici.get(i));
+                }
+
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+
+    }
+
+
+
+
+    public void importPersone(){
+
+        XMLInputFactory xmlif = null;
+        XMLStreamReader xmlr = null;
+
+        boolean errore = false;
 
         try {
             xmlif = XMLInputFactory.newInstance();
@@ -113,9 +179,8 @@ public class GestionePersone {
 
                         case XMLStreamConstants.START_ELEMENT: // inizio di un elemento
 
-                            nomeElemento = xmlr.getLocalName();
+                            switch (xmlr.getLocalName()){
 
-                            switch (nomeElemento){
                                 case "persone":
                                     setNumeroPersone(Integer.parseInt(xmlr.getAttributeValue(0)));
                                     break;
