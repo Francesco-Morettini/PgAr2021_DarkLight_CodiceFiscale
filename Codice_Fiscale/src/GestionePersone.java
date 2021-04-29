@@ -139,11 +139,11 @@ public class GestionePersone {
                     xmlr.next();
 
                 }
-
+/*
                 for(int i=0; i<=codici.size(); i++){
                     System.out.println(codici.get(i));
                 }
-
+*/
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -232,11 +232,11 @@ public class GestionePersone {
                     xmlr.next();
 
                 }
-
+/*
                 for(int i=0; i<=persone.size(); i++){
                     System.out.println(persone.get(i).getId() + " - " + persone.get(i).getNome() + " - " + persone.get(i).getCognome() + " - " + persone.get(i).getSesso() + " - " + persone.get(i).getComuneNascita() + " - " + persone.get(i).getDataNascita());
                 }
-
+*/
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -244,5 +244,16 @@ public class GestionePersone {
 
     }
 
+
+
+/*
+    public void verificaValidita(){
+
+        for(int i=0; i<persone.; i++){
+            for
+        }
+
+    }
+*/
 
 }
