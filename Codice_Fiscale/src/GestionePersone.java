@@ -1,6 +1,5 @@
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class GestionePersone {
     public void setSesso(char sesso) {
         this.sesso = sesso;
     }
-/*
+
     public void ImportPersone(){
 
         XMLInputFactory xmlif = null;
@@ -106,12 +105,12 @@ public class GestionePersone {
 
         if(!errore){
             try{
+
                while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
-                    xmlr.next();
+
                     switch (xmlr.getEventType()) { // switch sul tipo di evento
 
                         case XMLStreamConstants.START_ELEMENT: // inizio di un elemento
-
 
                             //ottengo il nome dell'elemento e lo assegno a nomeElemento
                             //se nomeElemento = "persone" allora assegno a numeroPersone il valore dell'attributo numero dell'elemento
@@ -131,7 +130,20 @@ public class GestionePersone {
                         case XMLStreamConstants.END_ELEMENT: // fine di un elemento
 
                             if(xmlr.getLocalName().equals("persona")){
-                                aggiungerePersona = true;
+                                //nuovaPersona = new Persona(id, nome, cognome, sesso, comuneNascita, dataNascita);
+                                //persone.add(nuovaPersona);
+                                //System.out.println(nuovaPersona.getId() + " - " + nuovaPersona.getNome() + " - " + nuovaPersona.getCognome() + " - " + nuovaPersona.getSesso() + " - " + nuovaPersona.getComuneNascita() + " - " + nuovaPersona.getDataNascita());
+                                //aggiungerePersona = false;
+
+                                //String name = getNome();
+/*
+                                System.out.println(getNome());
+                                System.out.println(getCognome());
+                                System.out.println(getSesso());
+                                System.out.println(getComuneNascita());
+                                System.out.println(getDataNascita());
+*/
+
                             }
 
                             break;
@@ -141,14 +153,19 @@ public class GestionePersone {
 
                             if(nomeElemento.equals("nome")){
                                 setNome(xmlr.getText());
+                                System.out.println(getNome());
                             }else if(nomeElemento.equals("cognome")){
                                 setCognome(xmlr.getText());
+                                System.out.println(getCognome());
                             }else if(nomeElemento.equals("sesso")){
                                 setSesso(xmlr.getText().charAt(0));
+                                System.out.println(getSesso());
                             }else if(nomeElemento.equals("comune_nascita")){
                                 setComuneNascita(xmlr.getText());
-                            }else if(nomeElemento.equals("data_nascita")){
+                                System.out.println(getComuneNascita());
+                            }else if(nomeElemento.equals("data_nascita")) {
                                 setDataNascita(xmlr.getText());
+                                System.out.println(getDataNascita());
                             }
 
                             break;
@@ -157,19 +174,14 @@ public class GestionePersone {
 
                     }
 
-                    if(aggiungerePersona){
-                        nuovaPersona = new Persona(id, nome, cognome, sesso, comuneNascita, dataNascita);
-                        persone.add(nuovaPersona);
-                        aggiungerePersona = false;
-                    }
-
                     xmlr.next();
-                }
 
+                }
+/*
                 for(int i=0; i<=persone.size(); i++){
                     System.out.println(persone.get(i).getId() + " - " + persone.get(i).getNome() + " - " + persone.get(i).getCognome() + " - " + persone.get(i).getSesso() + " - " + persone.get(i).getComuneNascita() + " - " + persone.get(i).getDataNascita());
                 }
-
+*/
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -179,5 +191,5 @@ public class GestionePersone {
 
     }
 
- */
+
 }
