@@ -135,14 +135,14 @@ public class GestionePersone {
                                 //System.out.println(nuovaPersona.getId() + " - " + nuovaPersona.getNome() + " - " + nuovaPersona.getCognome() + " - " + nuovaPersona.getSesso() + " - " + nuovaPersona.getComuneNascita() + " - " + nuovaPersona.getDataNascita());
                                 //aggiungerePersona = false;
 
-                                //String name = getNome();
-/*
+                                String name = getNome();
+
                                 System.out.println(getNome());
                                 System.out.println(getCognome());
                                 System.out.println(getSesso());
                                 System.out.println(getComuneNascita());
                                 System.out.println(getDataNascita());
-*/
+
 
                             }
 
@@ -153,19 +153,19 @@ public class GestionePersone {
 
                             if(nomeElemento.equals("nome")){
                                 setNome(xmlr.getText());
-                                System.out.println(getNome());
+                                //System.out.println(getNome());
                             }else if(nomeElemento.equals("cognome")){
                                 setCognome(xmlr.getText());
-                                System.out.println(getCognome());
+                                //System.out.println(getCognome());
                             }else if(nomeElemento.equals("sesso")){
                                 setSesso(xmlr.getText().charAt(0));
-                                System.out.println(getSesso());
+                                //System.out.println(getSesso());
                             }else if(nomeElemento.equals("comune_nascita")){
                                 setComuneNascita(xmlr.getText());
-                                System.out.println(getComuneNascita());
+                               // System.out.println(getComuneNascita());
                             }else if(nomeElemento.equals("data_nascita")) {
                                 setDataNascita(xmlr.getText());
-                                System.out.println(getDataNascita());
+                                //System.out.println(getDataNascita());
                             }
 
                             break;
