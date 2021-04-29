@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class GestionePersone {
 
-    //private final static String NOME_FILE_PERSONE = "../file/inputPersone.xml";
+    private final static String NOME_FILE_PERSONE = "Codice_Fiscale/file/inputPersone.xml";
+    private final static String ERRORE_READER = "Errore nell'inizializzazione del reader:";
 
     private ArrayList<Persona> persone;
     private ArrayList<String> codici;
@@ -91,38 +92,63 @@ public class GestionePersone {
         XMLInputFactory xmlif = null;
         XMLStreamReader xmlr = null;
 
-        boolean errore = false, aggiungerePersona = false;
-        String nomeElemento = null;
+        boolean errore = false;
+        String nomeElemento;
 
         try {
             xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader("Codice_Fiscale/file/inputPersone.xml", new FileInputStream("Codice_Fiscale/file/inputPersone.xml"));
+            xmlr = xmlif.createXMLStreamReader(NOME_FILE_PERSONE, new FileInputStream(NOME_FILE_PERSONE));
         } catch (Exception e) {
             errore = true;
-            System.out.println("Errore nell'inizializzazione del reader:");
+            System.out.println(ERRORE_READER);
             System.out.println(e.getMessage());
         }
 
         if(!errore){
             try{
 
-               while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
+                while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
 
                     switch (xmlr.getEventType()) { // switch sul tipo di evento
 
                         case XMLStreamConstants.START_ELEMENT: // inizio di un elemento
 
-                            //ottengo il nome dell'elemento e lo assegno a nomeElemento
-                            //se nomeElemento = "persone" allora assegno a numeroPersone il valore dell'attributo numero dell'elemento
-                            //altrimenti se nomeElemento = "persona" allora assegno a id il valore dell'attributo id dell'elemento
-
-
                             nomeElemento = xmlr.getLocalName();
 
-                            if(nomeElemento.equals("persone")){
-                                setNumeroPersone(Integer.parseInt(xmlr.getAttributeValue(0)));
-                            }else if(nomeElemento.equals("persona")){
-                                setId(Integer.parseInt(xmlr.getAttributeValue(0)));
+                            switch (nomeElemento){
+                                case "persone":
+                                    setNumeroPersone(Integer.parseInt(xmlr.getAttributeValue(0)));
+                                    break;
+
+                                case "persona":
+                                    setId(Integer.parseInt(xmlr.getAttributeValue(0)));
+                                    break;
+
+                                case "nome":
+                                    xmlr.next();
+                                    setNome(xmlr.getText());
+                                    break;
+
+                                case "cognome":
+                                    xmlr.next();
+                                    setCognome(xmlr.getText());
+                                    break;
+
+                                case "sesso":
+                                    xmlr.next();
+                                    setSesso(xmlr.getText().charAt(0));
+                                    break;
+
+                                case"comune_nascita":
+                                    xmlr.next();
+                                    setComuneNascita(xmlr.getText());
+                                    break;
+
+                                case "data_nascita":
+                                    xmlr.next();
+                                    setDataNascita(xmlr.getText());
+                                    break;
+
                             }
 
                             break;
@@ -130,63 +156,25 @@ public class GestionePersone {
                         case XMLStreamConstants.END_ELEMENT: // fine di un elemento
 
                             if(xmlr.getLocalName().equals("persona")){
-                                //nuovaPersona = new Persona(id, nome, cognome, sesso, comuneNascita, dataNascita);
-                                //persone.add(nuovaPersona);
-                                //System.out.println(nuovaPersona.getId() + " - " + nuovaPersona.getNome() + " - " + nuovaPersona.getCognome() + " - " + nuovaPersona.getSesso() + " - " + nuovaPersona.getComuneNascita() + " - " + nuovaPersona.getDataNascita());
-                                //aggiungerePersona = false;
-
-                                String name = getNome();
-
-                                System.out.println(getNome());
-                                System.out.println(getCognome());
-                                System.out.println(getSesso());
-                                System.out.println(getComuneNascita());
-                                System.out.println(getDataNascita());
-
-
+                                nuovaPersona = new Persona(id, nome, cognome, sesso, comuneNascita, dataNascita);
+                                persone.add(nuovaPersona);
                             }
 
                             break;
-
-
-                        case XMLStreamConstants.CHARACTERS: // contenuto all’interno di un elemento
-
-                            if(nomeElemento.equals("nome")){
-                                setNome(xmlr.getText());
-                                //System.out.println(getNome());
-                            }else if(nomeElemento.equals("cognome")){
-                                setCognome(xmlr.getText());
-                                //System.out.println(getCognome());
-                            }else if(nomeElemento.equals("sesso")){
-                                setSesso(xmlr.getText().charAt(0));
-                                //System.out.println(getSesso());
-                            }else if(nomeElemento.equals("comune_nascita")){
-                                setComuneNascita(xmlr.getText());
-                               // System.out.println(getComuneNascita());
-                            }else if(nomeElemento.equals("data_nascita")) {
-                                setDataNascita(xmlr.getText());
-                                //System.out.println(getDataNascita());
-                            }
-
-                            break;
-
-
 
                     }
 
                     xmlr.next();
 
                 }
-/*
+
                 for(int i=0; i<=persone.size(); i++){
                     System.out.println(persone.get(i).getId() + " - " + persone.get(i).getNome() + " - " + persone.get(i).getCognome() + " - " + persone.get(i).getSesso() + " - " + persone.get(i).getComuneNascita() + " - " + persone.get(i).getDataNascita());
                 }
-*/
+
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
-
-
         }
 
     }
