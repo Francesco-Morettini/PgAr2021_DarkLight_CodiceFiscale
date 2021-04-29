@@ -74,22 +74,22 @@ public class Persona {
         this.sesso = sesso;
     }
 
-    /*
+
     private int lunghezzaCognome(){
         return this.cognome.length();
     }
 
     public String cognomeCodice(){
-
+        int contatore=0;
         String primaparte= new String();
         if ( lunghezzaCognome()>=3 ){
 
-                int contatore=0;
+                 contatore=0;
                 for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
                 {
-             //       if(!(cognome[i].contains("A E I O U")) )
+                       if(!((cognome.charAt(i)=='A') || (cognome.charAt(i)=='E') || (cognome.charAt(i)=='I') || (cognome.charAt(i)=='O') || (cognome.charAt(i)=='U')) )
                           {
-                   //     primaparte = primaparte + cognome[i];
+                        primaparte = primaparte + cognome.charAt(i);
                         contatore++;
                     }
                 }
@@ -97,9 +97,9 @@ public class Persona {
                 {
                     for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
                     {
-                //        if((cognome[i].contains("A E I O U")) )
+                        if((cognome.charAt(i)=='A') || (cognome.charAt(i)=='E') || (cognome.charAt(i)=='I') || (cognome.charAt(i)=='O') || (cognome.charAt(i)=='U'))
                                 {
-                      //      primaparte = primaparte + cognome[i];
+                            primaparte = primaparte + cognome.charAt(i);
                             contatore++;
                         }
                     }
@@ -108,15 +108,35 @@ public class Persona {
         }
         else{
 
-            for(int i=0;i<lunghezzaCognome();i++)
+            for(int i=0;i<lunghezzaCognome();i++) {
+                contatore = 0;
+                if (cognome.charAt(i) != 'A' && cognome.charAt(i) != 'E' && cognome.charAt(i) != 'I' && cognome.charAt(i) != 'O' && cognome.charAt(i) != 'U') {
+                    primaparte = primaparte + cognome.charAt(i);
+                    contatore++;
+                }
+            }
+                if(contatore<3)
+                {
+                    for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
+                    {
+                        if((cognome.charAt(i)=='A') || (cognome.charAt(i)=='E') || (cognome.charAt(i)=='I') || (cognome.charAt(i)=='O') || (cognome.charAt(i)=='U'))
+                        {
+                            primaparte = primaparte + cognome.charAt(i);
+                            contatore++;
+                        }
+                    }
+                }
+            if(contatore<3)
             {
-                if(cognome[i]!='A' && cognome[i]!='E' && cognome[i]!='I' && cognome[i]!='O' && cognome[i]!='U' )
-                    primaparte=primaparte+cognome[i];
+                for(int i=0;i<lunghezzaCognome()-contatore;i++)
+                {
+                    primaparte=primaparte+'X';
+                }
             }
         }
         return primaparte;
     }
-    */
+
 
     /*
     public void generaCodice()
