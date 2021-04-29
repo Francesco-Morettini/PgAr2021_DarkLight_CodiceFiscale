@@ -179,7 +179,71 @@ public class Persona {
         }
         return secondaparte;
     }
+    public String codiceAnnoMese()
+    {
+        String terzaparte= new String();
+        int mese;
+        mese = Integer.parseInt(""+dataNascita.charAt(5)+dataNascita.charAt(6));
+        terzaparte=""+dataNascita.charAt(2)+dataNascita.charAt(3);
+        if(mese==1) {
+            terzaparte+="A";
+        }
+        if(mese==2) {
+            terzaparte+="B";
+        }
+        if(mese==3) {
+            terzaparte+="C";
+        }
+        if(mese==4) {
+            terzaparte+="D";
+        }
+        if(mese==5) {
+            terzaparte+="E";
+        }
+        if(mese==6) {
+            terzaparte+="H";
+        }
+        if(mese==7) {
+            terzaparte+="L";
+        }
+        if(mese==8) {
+            terzaparte+="M";
+        }
+        if(mese==9) {
+            terzaparte+="P";
+        }
+        if(mese==10) {
+            terzaparte+="R";
+        }
+        if(mese==11) {
+            terzaparte+="S";
+        }
+        if(mese==12) {
+            terzaparte+="T";
+        }
+        return terzaparte;
+    }
 
+    public String codiceGiorno()
+    {
+        String quartaparte= new String();
+        int giorno;
+        giorno= Integer.parseInt(""+dataNascita.charAt(8)+dataNascita.charAt(9));
+        if(sesso=='F')
+        {
+            quartaparte=""+(30+giorno);
+        }
+        else
+        {
+            if(giorno<10)
+            {
+                quartaparte="0"+giorno;
+            }
+            else
+                quartaparte=""+giorno;
+        }
+        return quartaparte;
+    }
     /*
     public void generaCodice()
     {
