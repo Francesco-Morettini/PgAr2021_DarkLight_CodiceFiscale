@@ -1,12 +1,20 @@
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
+import java.io.FileInputStream;
 import java.util.Date;
 import java.util.Locale;
 
 public class Persona {
 
+    private final static String NOME_FILE_COMUNI = "Codice_Fiscale/file/comuni.xml";
+    private final static String ERRORE_READER = "Errore nell'inizializzazione del reader:";
+
     private int id;
-    private String nome, cognome, comuneNascita, dataNascita, codiceFiscale;
+    private String nome, cognome, comuneNascita, dataNascita, codiceFiscale, codiceComune;
+
     private char sesso;
-    boolean assente = false;
+    private boolean assente;
 
 
     public Persona(int id, String nome, String cognome, char sesso, String comuneNascita, String dataNascita) {
@@ -14,8 +22,9 @@ public class Persona {
         this.nome = nome.toUpperCase();
         this.cognome = cognome.toUpperCase();
         this.sesso = sesso;
-        this.comuneNascita = comuneNascita;
+        this.comuneNascita = comuneNascita.toUpperCase();
         this.dataNascita = dataNascita;
+        this.assente = true;
     }
 
     public int getId() {
@@ -72,6 +81,22 @@ public class Persona {
 
     public void setSesso(char sesso) {
         this.sesso = sesso;
+    }
+
+    public boolean getAssente(){
+        return assente;
+    }
+
+    public void setAssente(boolean assente){
+        this.assente = assente;
+    }
+
+    public String getCodiceComune() {
+        return codiceComune;
+    }
+
+    public void setCodiceComune(String codiceComune) {
+        this.codiceComune = codiceComune;
     }
 
 
@@ -244,11 +269,72 @@ public class Persona {
         }
         return quartaparte;
     }
+
+
+
+
+    public void generaCodiceComune(){
+
+        XMLInputFactory xmlif = null;
+        XMLStreamReader xmlr = null;
+
+        boolean errore = false;
+        String comune = null;
+
+        try {
+            xmlif = XMLInputFactory.newInstance();
+            xmlr = xmlif.createXMLStreamReader(NOME_FILE_COMUNI, new FileInputStream(NOME_FILE_COMUNI));
+        } catch (Exception e) {
+            errore = true;
+            System.out.println(ERRORE_READER);
+            System.out.println(e.getMessage());
+        }
+
+        if(!errore){
+            try{
+
+                while (xmlr.hasNext()) { // continua a leggere finché ha eventi a disposizione
+
+                    switch (xmlr.getEventType()) { // switch sul tipo di evento
+
+                        case XMLStreamConstants.START_ELEMENT: // inizio di un elemento
+
+                            switch (xmlr.getLocalName()){
+
+                                case "nome":
+                                    xmlr.next();
+                                    comune = xmlr.getText().toUpperCase();
+                                    break;
+
+                                case "codice":
+                                    if(comune.equals(getComuneNascita())){
+                                        xmlr.next();
+                                        setCodiceComune(xmlr.getText());
+                                    }
+                                    break;
+
+                            }
+
+                            break;
+
+                    }
+
+                    xmlr.next();
+
+                }
+
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+
+    }
+
     /*
     public void generaCodice()
     {
-
-        //  richiamare la parte del cognome
+        //  richiamare generaCodiceComune prima di generare il codice
+        //  richiamare la parte del cognome e le altre parti
 
     }
     */
