@@ -75,68 +75,110 @@ public class Persona {
     }
 
 
-    private int lunghezzaCognome(){
+    private int lunghezzaCognome() {
         return this.cognome.length();
     }
 
-    public String cognomeCodice(){
-        int contatore=0;
-        String primaparte= new String();
-        if ( lunghezzaCognome()>=3 ){
+    public String cognomeCodice() {
+        int contatore = 0;
+        String primaparte = new String();
+        if (lunghezzaCognome() >= 3) {
 
-                 contatore=0;
-                for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
-                {
-                       if(!((cognome.charAt(i)=='A') || (cognome.charAt(i)=='E') || (cognome.charAt(i)=='I') || (cognome.charAt(i)=='O') || (cognome.charAt(i)=='U')) )
-                          {
+            contatore = 0;
+            for (int i = 0; i < lunghezzaCognome() && contatore < 3; i++) {
+                if (!((cognome.charAt(i) == 'A') || (cognome.charAt(i) == 'E') || (cognome.charAt(i) == 'I') || (cognome.charAt(i) == 'O') || (cognome.charAt(i) == 'U'))) {
+                    primaparte = primaparte + cognome.charAt(i);
+                    contatore++;
+                }
+            }
+            if (contatore < 3) {
+                for (int i = 0; i < lunghezzaCognome() && contatore < 3; i++) {
+                    if ((cognome.charAt(i) == 'A') || (cognome.charAt(i) == 'E') || (cognome.charAt(i) == 'I') || (cognome.charAt(i) == 'O') || (cognome.charAt(i) == 'U')) {
                         primaparte = primaparte + cognome.charAt(i);
                         contatore++;
                     }
                 }
-                if(contatore<3)
-                {
-                    for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
-                    {
-                        if((cognome.charAt(i)=='A') || (cognome.charAt(i)=='E') || (cognome.charAt(i)=='I') || (cognome.charAt(i)=='O') || (cognome.charAt(i)=='U'))
-                                {
-                            primaparte = primaparte + cognome.charAt(i);
-                            contatore++;
-                        }
-                    }
-                }
+            }
 
-        }
-        else{
+        } else {
 
-            for(int i=0;i<lunghezzaCognome();i++) {
+            for (int i = 0; i < lunghezzaCognome(); i++) {
                 contatore = 0;
                 if (cognome.charAt(i) != 'A' && cognome.charAt(i) != 'E' && cognome.charAt(i) != 'I' && cognome.charAt(i) != 'O' && cognome.charAt(i) != 'U') {
                     primaparte = primaparte + cognome.charAt(i);
                     contatore++;
                 }
             }
-                if(contatore<3)
-                {
-                    for(int i=0;i<lunghezzaCognome() && contatore<3;i++)
-                    {
-                        if((cognome.charAt(i)=='A') || (cognome.charAt(i)=='E') || (cognome.charAt(i)=='I') || (cognome.charAt(i)=='O') || (cognome.charAt(i)=='U'))
-                        {
-                            primaparte = primaparte + cognome.charAt(i);
-                            contatore++;
-                        }
+            if (contatore < 3) {
+                for (int i = 0; i < lunghezzaCognome() && contatore < 3; i++) {
+                    if ((cognome.charAt(i) == 'A') || (cognome.charAt(i) == 'E') || (cognome.charAt(i) == 'I') || (cognome.charAt(i) == 'O') || (cognome.charAt(i) == 'U')) {
+                        primaparte = primaparte + cognome.charAt(i);
+                        contatore++;
                     }
                 }
-            if(contatore<3)
-            {
-                for(int i=0;i<lunghezzaCognome()-contatore;i++)
-                {
-                    primaparte=primaparte+'X';
+            }
+            if (contatore < 3) {
+                for (int i = 0; i < lunghezzaCognome() - contatore; i++) {
+                    primaparte = primaparte + 'X';
                 }
             }
         }
         return primaparte;
     }
 
+    public String codiceNome() {
+        int contatore = 0, consonanti = 0;
+        String nome_consonanti = new String(), secondaparte = new String();
+
+        if (nome.length() >= 3) {
+
+            for (int i = 0; i < nome.length(); i++) {
+                if (!((nome.charAt(i) == 'A') || (nome.charAt(i) == 'E') || (nome.charAt(i) == 'I') || (nome.charAt(i) == 'O') || (nome.charAt(i) == 'U'))) {
+                    consonanti++;
+                    nome_consonanti = nome_consonanti + nome.charAt(i);
+                }
+            }
+            if (consonanti >= 4) {
+                secondaparte=""+nome_consonanti.charAt(0)+nome_consonanti.charAt(2)+nome_consonanti.charAt(3);
+            }
+            else{
+                    secondaparte=secondaparte+nome_consonanti;
+                    contatore=nome_consonanti.length();
+                    for(int i=0;i<nome.length() && contatore<3;i++)
+                    {
+                        if((nome.charAt(i) == 'A') || (nome.charAt(i) == 'E') || (nome.charAt(i) == 'I') || (nome.charAt(i) == 'O') || (nome.charAt(i) == 'U'))
+                        {
+                            secondaparte=secondaparte+nome.charAt(i);
+                        }
+                    }
+
+            }
+
+        } else {
+                for (int i = 0; i < nome.length() && contatore<3; i++) {
+                    if (!((nome.charAt(i) == 'A') || (nome.charAt(i) == 'E') || (nome.charAt(i) == 'I') || (nome.charAt(i) == 'O') || (nome.charAt(i) == 'U'))) {
+                        contatore++;
+                       secondaparte = secondaparte + nome.charAt(i);
+                    }
+                }
+                for (int i = 0; i < nome.length() && contatore<3; i++) {
+                    if ((nome.charAt(i) == 'A') || (nome.charAt(i) == 'E') || (nome.charAt(i) == 'I') || (nome.charAt(i) == 'O') || (nome.charAt(i) == 'U')) {
+                        contatore++;
+                        secondaparte = secondaparte + nome.charAt(i);
+                    }
+                }
+                if(contatore<3)
+                {
+                    for(int i=contatore; i<3;i++)
+                    {
+                        secondaparte=secondaparte+"X";
+                    }
+                }
+
+
+        }
+        return secondaparte;
+    }
 
     /*
     public void generaCodice()
