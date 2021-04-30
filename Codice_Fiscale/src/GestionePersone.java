@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class GestionePersone {
 
@@ -25,8 +26,12 @@ public class GestionePersone {
     private char sesso;
 
 
-
-
+    /**
+     * Metodo costruttore.
+     * Inizializza le seguenti ArrayList persone, codiciCorreto
+     *
+     *
+     */
     public GestionePersone() {
         this.persone = new ArrayList<Persona>();
         this.codiciCorretti = new ArrayList<String>();
@@ -186,69 +191,69 @@ public class GestionePersone {
         }
 
         //controllo giorno compreso fra 1 e 31 o fra 41 e 71
-        if((Integer.parseInt(codice.substring(9,10)) < 1) || ((Integer.parseInt(codice.substring(9,10)) > 31) && (Integer.parseInt(codice.substring(9,10)) < 41)) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+        if((Integer.parseInt(codice.substring(9,11)) < 1) || ((Integer.parseInt(codice.substring(9,11)) > 31) && (Integer.parseInt(codice.substring(9,11)) < 41)) || (Integer.parseInt(codice.substring(9,11)) > 71)){
             return false;
         }
 
         //controllo validità del mese e validità numero giorni in un mese
         switch (codice.charAt(8)){
             case 'A'://gennaio
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
             case 'B'://febbraio
-                if((Integer.parseInt(codice.substring(9,10)) > 28 ) || (Integer.parseInt(codice.substring(9,10)) > 68)){
+                if((Integer.parseInt(codice.substring(9,11)) > 28 ) || (Integer.parseInt(codice.substring(9,11)) > 68)){
                     return false;
                 }
                 break;
             case 'C'://marzo
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
             case 'D'://aprile
-                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                if((Integer.parseInt(codice.substring(9,11)) > 30 ) || (Integer.parseInt(codice.substring(9,11)) > 70)){
                     return false;
                 }
                 break;
             case 'E'://maggio
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
             case 'H'://giugno
-                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                if((Integer.parseInt(codice.substring(9,11)) > 30 ) || (Integer.parseInt(codice.substring(9,11)) > 70)){
                     return false;
                 }
                 break;
             case 'L'://luglio
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
             case 'M'://agosto
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
             case 'P'://settembre
-                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                if((Integer.parseInt(codice.substring(9,11)) > 30 ) || (Integer.parseInt(codice.substring(9,11)) > 70)){
                     return false;
                 }
                 break;
             case 'R'://ottobre
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
             case 'S'://novembre
-                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                if((Integer.parseInt(codice.substring(9,11)) > 30 ) || (Integer.parseInt(codice.substring(9,11)) > 70)){
                     return false;
                 }
                 break;
             case 'T'://dicembre
-                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                if((Integer.parseInt(codice.substring(9,11)) > 31 ) || (Integer.parseInt(codice.substring(9,11)) > 71)){
                     return false;
                 }
                 break;
@@ -256,7 +261,11 @@ public class GestionePersone {
                     return false;
         }
 
-        // aggiungere controllo carattere di controllo
+        //controllo carattere di controllo
+        if(codice.charAt(15) != getCarattereDiControllo(codice.substring(0,codice.length()-1))){
+            return false;
+        }
+
 
         return true;
 
@@ -494,6 +503,78 @@ public class GestionePersone {
         }
 
     }
+
+
+
+
+
+    public char getCarattereDiControllo(String primaParte) {
+
+        int pari=0,dispari=0;
+        String caratteridispari = null, caratteripari = null,
+                caratteri= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                valoridispari="1-0-5-7-9-13-15-17-19-21-1-0-5-7-9-13-15-17-19-21-2-4-18-20-11-3-6-8-12-14-16-10-22-25-24-23",
+                valoripari="0-1-2-3-4-5-6-7-8-9-0-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25",
+                alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char ccontrollo;
+        StringTokenizer tokenizer;
+
+        for(int i=0;i<15;i++)
+        {
+            if(i%2==0)
+            {
+                caratteridispari=caratteridispari+primaParte.charAt(i);
+            }
+            else
+            {
+                caratteripari=caratteripari+primaParte.charAt(i);
+            }
+        }
+        for(int i=0;i<caratteridispari.length();i++)
+        {
+            boolean trovato=false;
+            for (int j=0;j<36 && trovato==false;j++)
+            {
+                if (caratteridispari.charAt(i)==caratteri.charAt(j))
+                {
+                    tokenizer = new StringTokenizer( valoridispari , "-" );
+                    for(int k=0;k<j;k++)
+                    {
+                        tokenizer.nextToken();
+                    }
+                    dispari=dispari+Integer.parseInt(tokenizer.nextToken());
+                    trovato=true;
+                }
+            }
+        }
+        for(int i=0;i<caratteripari.length();i++)
+        {
+            boolean trovato=false;
+            for (int j=0;j<36 && trovato==false;j++)
+            {
+                if (caratteripari.charAt(i)==caratteri.charAt(j))
+                {
+                    tokenizer = new StringTokenizer( valoripari , "-" );
+                    for(int k=0;k<j;k++)
+                    {
+                        tokenizer.nextToken();
+                    }
+                    pari=pari+Integer.parseInt(tokenizer.nextToken());
+                    trovato=true;
+                }
+            }
+        }
+        ccontrollo = alfabeto.charAt((pari+dispari)%26);
+        return ccontrollo;
+    }
+
+
+
+
+
+
+
+
 
 
 
