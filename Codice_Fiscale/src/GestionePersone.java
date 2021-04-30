@@ -164,7 +164,7 @@ public class GestionePersone {
 
 
 
-    public boolean verificaValidita(String codice){
+        public boolean verificaValidita(String codice){
 
         int posLettere[] = {0,1,2,3,4,5,8,11,15};
         int posNumeri[] = {6,7,9,10,12,13,14};

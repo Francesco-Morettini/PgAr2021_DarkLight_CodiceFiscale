@@ -335,7 +335,11 @@ public class Persona {
         public String getCarattereDiControllo()
         {
             int pari=0,dispari=0;
-            String caratteridispari = new String (),ccontrollo = new String (),caratteripari = new String (),codiceincompleto = generaCodice(),caratteri= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",valoridispari="1-0-5-7-9-13-15-17-19-21-1-0-5-7-9-13-15-17-19-21-2-4-18-20-11-3-6-8-12-14-16-10-22-25-24-23";
+            String caratteridispari = new String (),ccontrollo = new String (),caratteripari = new String (),
+                    codiceincompleto = generaCodiceincompleto(),caratteri= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                    valoridispari="1-0-5-7-9-13-15-17-19-21-1-0-5-7-9-13-15-17-19-21-2-4-18-20-11-3-6-8-12-14-16-10-22-25-24-23",
+                    valoripari="0-1-2-3-4-5-6-7-8-9-0-1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25",
+                    alfabeto="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             StringTokenizer tokenizer;
             for(int i=0;i<15;i++)
             {
@@ -355,14 +359,38 @@ public class Persona {
                 {
                     if (caratteridispari.charAt(i)==caratteri.charAt(j))
                     {
-                       // dispari=dispari+
+                            tokenizer = new StringTokenizer( valoridispari , "-" );
+                            for(int k=0;k<j;k++)
+                            {
+                                 tokenizer.nextToken();
+                            }
+                            dispari=dispari+Integer.parseInt(tokenizer.nextToken());
+                            trovato=true;
                     }
                 }
             }
+            for(int i=0;i<caratteripari.length();i++)
+            {
+                boolean trovato=false;
+                for (int j=0;j<36 && trovato==false;j++)
+                {
+                    if (caratteripari.charAt(i)==caratteri.charAt(j))
+                    {
+                        tokenizer = new StringTokenizer( valoripari , "-" );
+                        for(int k=0;k<j;k++)
+                        {
+                            tokenizer.nextToken();
+                        }
+                        pari=pari+Integer.parseInt(tokenizer.nextToken());
+                        trovato=true;
+                    }
+                }
+            }
+            ccontrollo=""+(alfabeto.charAt((pari+dispari)%26));
             return ccontrollo;
         }
 
-    public String generaCodice() {
+    public String generaCodiceincompleto() {
 
         String codice;
 
@@ -372,6 +400,9 @@ public class Persona {
         return codice;
 
     }
-
-
+    public String generaCodice()
+    {
+        // da controllare in realtà serve per non dare errori nel costruttore
+        return generaCodiceincompleto()+getCarattereDiControllo();
+    }
 }
