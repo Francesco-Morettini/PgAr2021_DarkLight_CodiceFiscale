@@ -2,6 +2,7 @@ import javax.xml.stream.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GestionePersone {
 
@@ -13,7 +14,8 @@ public class GestionePersone {
     private final static String ERRORE_SCRITTURA_FILE = "Errore nella scrittura del file";
 
     private ArrayList<Persona> persone;
-    private ArrayList<String> codici;
+    private ArrayList<String> codiciCorretti;
+    private ArrayList<String> codiciInvalidi;
 
     private Persona nuovaPersona;
 
@@ -26,7 +28,8 @@ public class GestionePersone {
 
     public GestionePersone() {
         this.persone = new ArrayList<Persona>();
-        this.codici = new ArrayList<String>();
+        this.codiciCorretti = new ArrayList<String>();
+        this.codiciInvalidi = new ArrayList<String>();
     }
 
     public int getNumeroPersone() {
@@ -102,6 +105,7 @@ public class GestionePersone {
         XMLStreamReader xmlr = null;
 
         boolean errore = false;
+        String codice;
 
         try {
             xmlif = XMLInputFactory.newInstance();
@@ -129,7 +133,13 @@ public class GestionePersone {
 
                                 case "codice":
                                     xmlr.next();
-                                    codici.add(xmlr.getText());
+                                    codice = xmlr.getText();
+                                    if(verificaValidita(codice)){
+                                        codiciCorretti.add(codice);
+                                    }else{
+                                        codiciInvalidi.add(codice);
+                                    }
+
                                     break;
 
                             }
@@ -150,6 +160,35 @@ public class GestionePersone {
                 System.out.println(e.getMessage());
             }
         }
+
+    }
+
+
+
+
+    public boolean verificaValidita(String codice){
+
+        int posLettere[] = {0,1,2,3,4,5,8,11,15};
+        int posNumeri[] = {6,7,9,10,12,13,14};
+
+        codice.toUpperCase();
+
+        //controllo lettere in posizione corretta
+        for(int i=0; i < posLettere.length; i++){
+            if( codice.charAt(i) < 65 || codice.charAt(i) > 90){
+                return false;
+            }
+        }
+
+        //controllo numeri in posizione corretta
+        for(int i=0; i < posNumeri.length; i++){
+            if( codice.charAt(i) < 48 || codice.charAt(i) > 57){
+                return false;
+            }
+        }
+
+        //controllo giorno compreso fra 1 e 31 o fra 41 e 71
+        if(codice.charAt())
 
     }
 
@@ -249,13 +288,13 @@ public class GestionePersone {
 
 
 
-    public void verificaValidita(){
+    public void verificaPresenza(){
 
         boolean trovato = false;
 
         for(int i=0; (i < persone.size()) && (!trovato); i++){
-            for(int j = 0; (j < codici.size()) && (!trovato); j++){
-                if(persone.get(i).getCodiceFiscale().equals(codici.get(j))){
+            for(int j = 0; (j < codiciCorretti.size()) && (!trovato); j++){
+                if(persone.get(i).getCodiceFiscale().equals(codiciCorretti.get(j))){
                     trovato = true;
                     persone.get(i).setAssente(false);
                 }
