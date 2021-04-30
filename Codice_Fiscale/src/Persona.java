@@ -106,18 +106,26 @@ public class Persona {
         return this.cognome.length();
     }
 
+    /** (ciao lange, abbiamo utilizzato i javadoc senza che qualcuno li spiegasse) restituisce le 3 lettere del cognome
+     *
+     *
+     * @return String
+     */
     public String cognomeCodice() {
         int contatore = 0;
         String primaparte = new String();
+        //se cognome ha lunghezza >=3 entro
         if (lunghezzaCognome() >= 3) {
 
             contatore = 0;
             for (int i = 0; i < lunghezzaCognome() && contatore < 3; i++) {
+                //controllo che non sia una vocale
                 if (!((cognome.charAt(i) == 'A') || (cognome.charAt(i) == 'E') || (cognome.charAt(i) == 'I') || (cognome.charAt(i) == 'O') || (cognome.charAt(i) == 'U'))) {
                     primaparte = primaparte + cognome.charAt(i);
                     contatore++;
                 }
             }
+            // se è stato generato un codice con meno di 3 cifre allora entro ed aggiungo tante x quante mancano
             if (contatore < 3) {
                 for (int i = 0; i < lunghezzaCognome() && contatore < 3; i++) {
                     if ((cognome.charAt(i) == 'A') || (cognome.charAt(i) == 'E') || (cognome.charAt(i) == 'I') || (cognome.charAt(i) == 'O') || (cognome.charAt(i) == 'U')) {
@@ -127,15 +135,18 @@ public class Persona {
                 }
             }
 
-        } else {
+        } //se cognome non ha almeno 3 lettere entro
+            else {
 
             for (int i = 0; i < lunghezzaCognome(); i++) {
                 contatore = 0;
+                //se non è una vocale entro
                 if (cognome.charAt(i) != 'A' && cognome.charAt(i) != 'E' && cognome.charAt(i) != 'I' && cognome.charAt(i) != 'O' && cognome.charAt(i) != 'U') {
                     primaparte = primaparte + cognome.charAt(i);
                     contatore++;
                 }
             }
+            //se il codice generato non ha almeno 3 caratteri entro a prendere le vocali
             if (contatore < 3) {
                 for (int i = 0; i < lunghezzaCognome() && contatore < 3; i++) {
                     if ((cognome.charAt(i) == 'A') || (cognome.charAt(i) == 'E') || (cognome.charAt(i) == 'I') || (cognome.charAt(i) == 'O') || (cognome.charAt(i) == 'U')) {
@@ -153,6 +164,11 @@ public class Persona {
         return primaparte;
     }
 
+    /** CIAOO LANGE QUESTI SONO I FAMOSI JAVADOC CHE MI AVEVI CHIESTO, ORA, TI PREGO, RIVOGLIO IL MIO GUBBINO
+     * restituisce una stringa di 3 caratteri corrispondente al nome
+     *
+     * @return String
+     */
     public String codiceNome() {
         int contatore = 0, consonanti = 0;
         String nome_consonanti = new String(), secondaparte = new String();
@@ -160,6 +176,7 @@ public class Persona {
         if (nome.length() >= 3) {
 
             for (int i = 0; i < nome.length(); i++) {
+                //se non sono vocali entro
                 if (!((nome.charAt(i) == 'A') || (nome.charAt(i) == 'E') || (nome.charAt(i) == 'I') || (nome.charAt(i) == 'O') || (nome.charAt(i) == 'U'))) {
                     consonanti++;
                     nome_consonanti = nome_consonanti + nome.charAt(i);
@@ -206,6 +223,12 @@ public class Persona {
         }
         return secondaparte;
     }
+
+    /** CIAO LANGE
+     *  restituisce una stringa corrispondente al anno e mese
+     *
+     * @return String
+     */
     public String codiceAnnoMese()
     {
         String terzaparte= new String();
@@ -251,6 +274,10 @@ public class Persona {
         return terzaparte;
     }
 
+    /**Ciao Lange, ma quando fai la prima lezione sul programma arnaldo?
+     * restituisce una stringa corrispondente al giorno di nascita in base al sesso del individuo
+     * @return String
+     */
     public String codiceGiorno()
     {
         String quartaparte= new String();
@@ -273,8 +300,10 @@ public class Persona {
     }
 
 
-
-
+    /**estrae dal file il codice relativo al comune di nascità e assegna
+     * alla variabile di classe
+     *
+     */
     public void generaCodiceComune(){
 
         XMLInputFactory xmlif = null;
@@ -332,6 +361,10 @@ public class Persona {
 
     }
 
+    /**genera il carattere di controllo sulla base del codice generato in precedenza
+     *
+     * @return String
+     */
         public String getCarattereDiControllo()
         {
             int pari=0,dispari=0;
@@ -343,6 +376,7 @@ public class Persona {
             StringTokenizer tokenizer;
             for(int i=0;i<15;i++)
             {
+                //se sei in posizione dispari, cioè indice pari, entra
                 if(i%2==0)
                 {
                     caratteridispari=caratteridispari+codiceincompleto.charAt(i);
@@ -357,6 +391,7 @@ public class Persona {
                 boolean trovato=false;
                 for (int j=0;j<36 && trovato==false;j++)
                 {
+                    //se corrispondono i caratteri entro
                     if (caratteridispari.charAt(i)==caratteri.charAt(j))
                     {
                             tokenizer = new StringTokenizer( valoridispari , "-" );
@@ -390,6 +425,10 @@ public class Persona {
             return ccontrollo;
         }
 
+    /**aggrega e restituisce tutti gli output dei metodi relativi alla creazione del codice fiscale senza il carattere di controllo
+     *
+     * @return String
+     */
     public String generaCodiceincompleto() {
 
         String codice;
@@ -400,9 +439,14 @@ public class Persona {
         return codice;
 
     }
+
+    /**restituisce il codice fiscale
+     *
+     * @return String
+     */
     public String generaCodice()
     {
-        // da controllare in realtà serve per non dare errori nel costruttore
+
         return generaCodiceincompleto()+getCarattereDiControllo();
     }
 }
