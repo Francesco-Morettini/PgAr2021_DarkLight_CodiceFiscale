@@ -16,7 +16,7 @@ public class Persona {
     private char sesso;
     private boolean assente;
 
-
+    // abbiamo utilizzato i javadoc "nonostante non li abbiate spiegati" cit.
     public Persona(int id, String nome, String cognome, char sesso, String comuneNascita, String dataNascita) {
         this.id = id;
         this.nome = nome.toUpperCase();
@@ -331,6 +331,22 @@ public class Persona {
 
     }
 
+        public String getCarattereDiControllo()
+        {
+            String caratteridispari = new String (),caratteripari = new String (),codiceincompleto = generaCodice();
+            for(int i=0;i<15;i++)
+            {
+                if(i%2==0)
+                {
+                    caratteridispari=caratteridispari+codiceincompleto.charAt(i);
+                }
+                else
+                {
+                    caratteripari=caratteripari+codiceincompleto.charAt(i);
+                }
+            }
+
+        }
 
     public String generaCodice() {
 

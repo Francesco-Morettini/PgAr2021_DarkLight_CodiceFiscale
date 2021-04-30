@@ -25,6 +25,7 @@ public class Main {
           //c.generaCodiceComune(); //richiamo il metodo generaCodiceComune della classe Persona
           //System.out.println(c.getCodiceComune()); //stampa codiceComune dell'oggetto c
           //System.out.println(c.cognomeCodice() +c.codiceNome() + c.codiceAnnoMese() + c.codiceGiorno() + c.getCodiceComune());
+          System.out.println(c.getCarattereDiControllo());
           System.out.println(c.getCodiceFiscale());
 
      }
