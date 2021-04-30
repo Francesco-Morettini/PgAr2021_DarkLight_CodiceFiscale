@@ -257,7 +257,7 @@ public class Persona {
         giorno= Integer.parseInt(""+dataNascita.charAt(8)+dataNascita.charAt(9));
         if(sesso=='F')
         {
-            quartaparte=""+(30+giorno);
+            quartaparte=""+(40+giorno);
         }
         else
         {
