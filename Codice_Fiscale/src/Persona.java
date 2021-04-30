@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class Persona {
 
@@ -333,7 +334,9 @@ public class Persona {
 
         public String getCarattereDiControllo()
         {
-            String caratteridispari = new String (),caratteripari = new String (),codiceincompleto = generaCodice();
+            int pari=0,dispari=0;
+            String caratteridispari = new String (),ccontrollo = new String (),caratteripari = new String (),codiceincompleto = generaCodice(),caratteri= "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",valoridispari="1-0-5-7-9-13-15-17-19-21-1-0-5-7-9-13-15-17-19-21-2-4-18-20-11-3-6-8-12-14-16-10-22-25-24-23";
+            StringTokenizer tokenizer;
             for(int i=0;i<15;i++)
             {
                 if(i%2==0)
@@ -345,7 +348,18 @@ public class Persona {
                     caratteripari=caratteripari+codiceincompleto.charAt(i);
                 }
             }
-
+            for(int i=0;i<caratteridispari.length();i++)
+            {
+                boolean trovato=false;
+                for (int j=0;j<36 && trovato==false;j++)
+                {
+                    if (caratteridispari.charAt(i)==caratteri.charAt(j))
+                    {
+                       // dispari=dispari+
+                    }
+                }
+            }
+            return ccontrollo;
         }
 
     public String generaCodice() {
