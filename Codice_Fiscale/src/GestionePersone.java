@@ -16,6 +16,7 @@ public class GestionePersone {
     private ArrayList<Persona> persone;
     private ArrayList<String> codiciCorretti;
     private ArrayList<String> codiciInvalidi;
+    private ArrayList<String> codiciSpaiati;
 
     private Persona nuovaPersona;
 
@@ -30,6 +31,7 @@ public class GestionePersone {
         this.persone = new ArrayList<Persona>();
         this.codiciCorretti = new ArrayList<String>();
         this.codiciInvalidi = new ArrayList<String>();
+        this.codiciSpaiati = new ArrayList<String>();
     }
 
     public int getNumeroPersone() {
@@ -151,11 +153,7 @@ public class GestionePersone {
                     xmlr.next();
 
                 }
-/*
-                for(int i=0; i<=codici.size(); i++){
-                    System.out.println(codici.get(i));
-                }
-*/
+
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -175,20 +173,92 @@ public class GestionePersone {
 
         //controllo lettere in posizione corretta
         for(int i=0; i < posLettere.length; i++){
-            if( codice.charAt(i) < 65 || codice.charAt(i) > 90){
+            if( codice.charAt(posLettere[i]) < 65 || codice.charAt(posLettere[i]) > 90){
                 return false;
             }
         }
 
         //controllo numeri in posizione corretta
         for(int i=0; i < posNumeri.length; i++){
-            if( codice.charAt(i) < 48 || codice.charAt(i) > 57){
+            if( codice.charAt(posNumeri[i]) < 48 || codice.charAt(posNumeri[i]) > 57){
                 return false;
             }
         }
 
         //controllo giorno compreso fra 1 e 31 o fra 41 e 71
-        if(codice.charAt())
+        if((Integer.parseInt(codice.substring(9,10)) < 1) || ((Integer.parseInt(codice.substring(9,10)) > 31) && (Integer.parseInt(codice.substring(9,10)) < 41)) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+            return false;
+        }
+
+        //controllo validità del mese e validità numero giorni in un mese
+        switch (codice.charAt(8)){
+            case 'A'://gennaio
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            case 'B'://febbraio
+                if((Integer.parseInt(codice.substring(9,10)) > 28 ) || (Integer.parseInt(codice.substring(9,10)) > 68)){
+                    return false;
+                }
+                break;
+            case 'C'://marzo
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            case 'D'://aprile
+                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                    return false;
+                }
+                break;
+            case 'E'://maggio
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            case 'H'://giugno
+                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                    return false;
+                }
+                break;
+            case 'L'://luglio
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            case 'M'://agosto
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            case 'P'://settembre
+                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                    return false;
+                }
+                break;
+            case 'R'://ottobre
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            case 'S'://novembre
+                if((Integer.parseInt(codice.substring(9,10)) > 30 ) || (Integer.parseInt(codice.substring(9,10)) > 70)){
+                    return false;
+                }
+                break;
+            case 'T'://dicembre
+                if((Integer.parseInt(codice.substring(9,10)) > 31 ) || (Integer.parseInt(codice.substring(9,10)) > 71)){
+                    return false;
+                }
+                break;
+            default://mese non corretto
+                    return false;
+        }
+
+        // aggiungere controllo carattere di controllo
+
+        return true;
 
     }
 
@@ -273,11 +343,7 @@ public class GestionePersone {
                     xmlr.next();
 
                 }
-/*
-                for(int i=0; i<=persone.size(); i++){
-                    System.out.println(persone.get(i).getId() + " - " + persone.get(i).getNome() + " - " + persone.get(i).getCognome() + " - " + persone.get(i).getSesso() + " - " + persone.get(i).getComuneNascita() + " - " + persone.get(i).getDataNascita());
-                }
-*/
+
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -292,12 +358,17 @@ public class GestionePersone {
 
         boolean trovato = false;
 
-        for(int i=0; (i < persone.size()) && (!trovato); i++){
-            for(int j = 0; (j < codiciCorretti.size()) && (!trovato); j++){
-                if(persone.get(i).getCodiceFiscale().equals(codiciCorretti.get(j))){
+        for(int i=0; i < codiciCorretti.size(); i++){
+            for(int j = 0; (j < persone.size()) && (!trovato); j++){
+                if(persone.get(j).getCodiceFiscale().equals(codiciCorretti.get(i))){
                     trovato = true;
-                    persone.get(i).setAssente(false);
+                    persone.get(j).setAssente(false);
                 }
+            }
+            if(!trovato){
+                codiciSpaiati.add(codiciCorretti.get(i));
+            }else{
+                trovato = false;
             }
         }
 
@@ -338,11 +409,23 @@ public class GestionePersone {
             xmlw.writeStartElement("codici"); // scrittura del tag <codici>
 
                 xmlw.writeStartElement("invalidi"); // scrittura del tag <invalidi> ...
-                //xmlw.writeAttribute("numero" , Integer.toString(numeroInvalidi)); // ... con attributo numero
+                xmlw.writeAttribute("numero" , Integer.toString(codiciInvalidi.size())); // ... con attributo numero
+                    //per ogni elemento dell'ArrayList codiciInvalidi genero un elemento codice con il valore dell'array come testo
+                    for (int i=0; i < codiciInvalidi.size(); i++) {
+                        xmlw.writeStartElement("codice"); // scrittura del tag <codice> ...
+                        xmlw.writeCharacters(codiciInvalidi.get(i)); //scrittura codice
+                        xmlw.writeEndElement(); // chiusura tag </nome>
+                    }
                 xmlw.writeEndElement();//chiudo tag </invalidi>
 
                 xmlw.writeStartElement("spaiati"); // scrittura del tag <spaiati> ...
-                //xmlw.writeAttribute("numero" , Integer.toString(numeroSpaiati)); // ... con attributo numero
+                xmlw.writeAttribute("numero" , Integer.toString(codiciSpaiati.size())); // ... con attributo numero
+                    //per ogni elemento dell'ArrayList codiciSpaiati genero un elemento codice con il valore dell'array come testo
+                    for (int i=0; i < codiciSpaiati.size(); i++) {
+                        xmlw.writeStartElement("codice"); // scrittura del tag <codice> ...
+                        xmlw.writeCharacters(codiciSpaiati.get(i)); //scrittura codice
+                        xmlw.writeEndElement(); // chiusura tag </nome>
+                    }
                 xmlw.writeEndElement();//chiudo tag </spaiati>
 
             xmlw.writeEndElement();//chiudo tag </codici>
@@ -410,8 +493,44 @@ public class GestionePersone {
             System.out.println(e.getMessage());
         }
 
+    }
+
+
+
+
+    public void stampaCodiciCorretti(){
+
+        System.out.println("Codici Corretti:");
+        for(int i=0; i<codiciCorretti.size(); i++){
+            System.out.println(codiciCorretti.get(i));
+        }
 
     }
 
+    public void stampaCodiciInvalidi(){
+
+        System.out.println("Codici Errati:");
+        for(int i=0; i<codiciInvalidi.size(); i++){
+            System.out.println(codiciInvalidi.get(i));
+        }
+
+    }
+
+    public void stampaCodiciSpaiati(){
+
+        System.out.println("Codici Spaiati:");
+        for(int i=0; i<codiciSpaiati.size(); i++){
+            System.out.println(codiciSpaiati.get(i));
+        }
+
+    }
+
+    public void stampaPersone(){
+
+        for(int i=0; i<persone.size(); i++){
+            System.out.println(persone.get(i).getId() + " - " + persone.get(i).getNome() + " - " + persone.get(i).getCognome() + " - " + persone.get(i).getSesso() + " - " + persone.get(i).getComuneNascita() + " - " + persone.get(i).getDataNascita());
+        }
+
+    }
 
 }
