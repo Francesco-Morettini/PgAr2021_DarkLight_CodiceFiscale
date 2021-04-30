@@ -27,9 +27,9 @@ public class GestionePersone {
 
 
     /**
-     * Metodo costruttore.
-     * Inizializza le seguenti ArrayList persone, codiciCorreto
      *
+     * Metodo costruttore.<br>
+     * Inizializza le seguenti ArrayList: persone, codiciCorretti, codiciInvalidi, codiciSpaiati.
      *
      */
     public GestionePersone() {
@@ -104,8 +104,12 @@ public class GestionePersone {
     }
 
 
-
-
+    /**
+     *
+     * Effettua la lettura del file codiciFiscali.xml verificandone la validità: se validi, verranno inseriti
+     * in ArrayList codiciCorretti, altrimenti in ArrayList codiciInvalidi.
+     *
+     */
     public void importCodici(){
 
         XMLInputFactory xmlif = null;
@@ -135,12 +139,14 @@ public class GestionePersone {
                             switch (xmlr.getLocalName()){
 
                                 case "codici":
-                                    setNumeroCodici(Integer.parseInt(xmlr.getAttributeValue(0)));
+                                    setNumeroCodici(Integer.parseInt(xmlr.getAttributeValue(0))); //imposta numero codici = all'attributo di <codici>
                                     break;
 
                                 case "codice":
-                                    xmlr.next();
-                                    codice = xmlr.getText();
+                                    xmlr.next(); //passa al testo di codice
+                                    codice = xmlr.getText(); //ottiene il testo
+
+                                    //controllo se il codice è valido ed in base a ciò lo aggiungo ad Arraylist codiciCorretti o codiciInvalidi
                                     if(verificaValidita(codice)){
                                         codiciCorretti.add(codice);
                                     }else{
@@ -167,8 +173,19 @@ public class GestionePersone {
     }
 
 
-
-
+        /**
+         *
+         * Verifica la validità del codice fiscale effettuando i seguenti controlli:
+         * <ul>
+         *     <li> controllo che lettere e numeri siano nelle posizioni corrette; </li>
+         *     <li> controllo che il giorno sia compreso fra 1 e 31 o fra 41 e 71; </li>
+         *     <li> controllo validità del mese e numero giorni max in un mese; </li>
+         *     <li> validità del carattere di controllo; </li>
+         * </ul>
+         *
+         * @param codice
+         * @return true se il codice è valido, false altrimenti.
+         */
         public boolean verificaValidita(String codice){
 
         int posLettere[] = {0,1,2,3,4,5,8,11,15};
@@ -272,8 +289,13 @@ public class GestionePersone {
     }
 
 
-
-
+    /**
+     *
+     * Effettua la lettura del file inputPersone.xml per ottenere il numero di persone e per ogni persona:
+     * id, nome, cognome, sesso, comune di nascita, data di nascita.<br>
+     * Al termine di ogni elemento "persona" creo un nuovo oggetto di classe Persona e lo aggiungo ad ArrayList persone.
+     *
+     */
     public void importPersone(){
 
         XMLInputFactory xmlif = null;
@@ -302,36 +324,36 @@ public class GestionePersone {
                             switch (xmlr.getLocalName()){
 
                                 case "persone":
-                                    setNumeroPersone(Integer.parseInt(xmlr.getAttributeValue(0)));
+                                    setNumeroPersone(Integer.parseInt(xmlr.getAttributeValue(0))); //assegno a numeroPersone il valore dell'attributo dell'elemento <persone>
                                     break;
 
                                 case "persona":
-                                    setId(Integer.parseInt(xmlr.getAttributeValue(0)));
+                                    setId(Integer.parseInt(xmlr.getAttributeValue(0))); //assegno a id il valore dell'attributo dell'elemento <persona>
                                     break;
 
                                 case "nome":
-                                    xmlr.next();
-                                    setNome(xmlr.getText());
+                                    xmlr.next(); //passo al testo di <nome>
+                                    setNome(xmlr.getText()); //assegno a nome il testo letto
                                     break;
 
                                 case "cognome":
-                                    xmlr.next();
-                                    setCognome(xmlr.getText());
+                                    xmlr.next(); //passo al testo di <cognome>
+                                    setCognome(xmlr.getText()); //assegno a cognome il testo letto
                                     break;
 
                                 case "sesso":
-                                    xmlr.next();
-                                    setSesso(xmlr.getText().charAt(0));
+                                    xmlr.next(); //passo al testo di <sesso>
+                                    setSesso(xmlr.getText().charAt(0)); //assegno a sesso il testo letto
                                     break;
 
                                 case"comune_nascita":
-                                    xmlr.next();
-                                    setComuneNascita(xmlr.getText());
+                                    xmlr.next(); //passo al testo di <comune_nascita>
+                                    setComuneNascita(xmlr.getText()); //assegno a comuneNascita il testo letto
                                     break;
 
                                 case "data_nascita":
-                                    xmlr.next();
-                                    setDataNascita(xmlr.getText());
+                                    xmlr.next(); //passo al testo di <data_nascita>
+                                    setDataNascita(xmlr.getText()); //assegno a dataNascita il testo letto
                                     break;
 
                             }
@@ -340,6 +362,7 @@ public class GestionePersone {
 
                         case XMLStreamConstants.END_ELEMENT: // fine di un elemento
 
+                            //se termina elemento <persona> creo nuovo oggetto di classe Persona e lo aggiungo ad ArrayList persone
                             if(xmlr.getLocalName().equals("persona")){
                                 nuovaPersona = new Persona(id, nome, cognome, sesso, comuneNascita, dataNascita);
                                 persone.add(nuovaPersona);
@@ -361,15 +384,18 @@ public class GestionePersone {
     }
 
 
-
-
+    /**
+     *
+     * Verifica se il codice fiscale di una persona è presente o assente confrontando il suo codice con i codici validi letti dal file codiciFiscali.xml
+     *
+     */
     public void verificaPresenza(){
 
         boolean trovato = false;
 
-        for(int i=0; i < codiciCorretti.size(); i++){
-            for(int j = 0; (j < persone.size()) && (!trovato); j++){
-                if(persone.get(j).getCodiceFiscale().equals(codiciCorretti.get(i))){
+        for(int i=0; i < codiciCorretti.size(); i++){ //per ogni elemento di codiciCorretti
+            for(int j = 0; (j < persone.size()) && (!trovato); j++){ //per ogni elemento di codici corretti finchè trovato = true o termina l'ArrayList
+                if(persone.get(j).getCodiceFiscale().equals(codiciCorretti.get(i))){ //se i codici fiscali corrispondono imposto trovato = true e richiamo il metodo setAssente di classe Persona passando false per parametro
                     trovato = true;
                     persone.get(j).setAssente(false);
                 }
@@ -384,8 +410,12 @@ public class GestionePersone {
     }
 
 
-
-
+    /**
+     *
+     * Metodo che genera il file di output.
+     *
+     * @return true se il file viene generato correttamente.
+     */
     public boolean generaFileOutput(){
 
         XMLOutputFactory xmlof = null;
@@ -457,8 +487,13 @@ public class GestionePersone {
     }
 
 
-
-
+    /**
+     * Metodo che genera gli elementi persona e sottoelementi: nome, cognome, sesso, comune di nascita, data di nascita e codice fiscale
+     * da scrivere nel file di output.
+     *
+     * @param persona
+     * @param xmlw
+     */
     public void generaElementiPersona(Persona persona, XMLStreamWriter xmlw){
 
         try{
@@ -505,9 +540,14 @@ public class GestionePersone {
     }
 
 
-
-
-
+    /**
+     *
+     * Genera il carattere di controllo (utile per la verifica validità)
+     * a partire dalla prima parte di codice fiscale passata per parametro.
+     *
+     * @param primaParte
+     * @return carattere generato
+     */
     public char getCarattereDiControllo(String primaParte) {
 
         int pari=0,dispari=0;
@@ -578,7 +618,9 @@ public class GestionePersone {
 
 
 
-
+    /**
+     * stampa tutti gli elementi dell'ArrayList codiciCorretti
+     */
     public void stampaCodiciCorretti(){
 
         System.out.println("Codici Corretti:");
@@ -588,6 +630,9 @@ public class GestionePersone {
 
     }
 
+    /**
+     * stampa tutti gli elementi dell'ArrayList codiciInvalidi
+     */
     public void stampaCodiciInvalidi(){
 
         System.out.println("Codici Errati:");
@@ -597,6 +642,9 @@ public class GestionePersone {
 
     }
 
+    /**
+     * stampa tutti gli elementi dell'ArrayList codiciSpaiati
+     */
     public void stampaCodiciSpaiati(){
 
         System.out.println("Codici Spaiati:");
@@ -606,6 +654,9 @@ public class GestionePersone {
 
     }
 
+    /**
+     * stampa tutti gli elementi dell'ArrayList persone
+     */
     public void stampaPersone(){
 
         for(int i=0; i<persone.size(); i++){
