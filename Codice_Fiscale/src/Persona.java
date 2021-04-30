@@ -25,6 +25,7 @@ public class Persona {
         this.comuneNascita = comuneNascita.toUpperCase();
         this.dataNascita = dataNascita;
         this.assente = true;
+        setCodiceFiscale(generaCodice());
     }
 
     public int getId() {
@@ -330,13 +331,17 @@ public class Persona {
 
     }
 
-    /*
-    public void generaCodice()
-    {
-        //  richiamare generaCodiceComune prima di generare il codice
-        //  richiamare la parte del cognome e le altre parti
+
+    public String generaCodice() {
+
+        String codice;
+
+        generaCodiceComune();
+        codice = cognomeCodice() + codiceNome() + codiceAnnoMese() + codiceGiorno() + getCodiceComune();
+
+        return codice;
 
     }
-    */
+
 
 }
